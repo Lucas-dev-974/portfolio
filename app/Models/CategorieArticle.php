@@ -10,11 +10,11 @@ class CategorieArticle extends Model
     use HasFactory;
 
     protected $fillable = [
-        'article_id', 'categorie_id', 'id'
+        'post_id', 'categorie_id', 'id'
     ];
 
     public function categorie($article_id = 0){
-        $categories = $this->all()->where(['article_id' => $this->id])
+        $categories = $this->all()->where(['post_id' => $this->id])
             ->leftJoin('categories', 'categories.id', '=', $this->article_id)
             ->get();
         

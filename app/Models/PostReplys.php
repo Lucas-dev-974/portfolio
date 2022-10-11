@@ -10,7 +10,7 @@ class ArticleReply extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id', 'author', 'content', 'article_id', 'publication_date'
+        'id', 'author', 'content', 'post_id', 'publication_date'
     ];
 
     public function ArticleParent(){
