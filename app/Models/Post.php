@@ -5,13 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Article extends Model
+class Post extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'id', 'title', 'author', 'content', 'publication_date'
+        'id', 'title', 'user_id', 'content', 'publication_date', 'public'
     ];
+
+    public function updatableFields(){
+        return ['title', 'content', 'public'];
+    }
 
     public function user(){
         return $this->belongsTo(User::class);
@@ -22,6 +26,10 @@ class Article extends Model
     }
 
     public function categories(){
-        return $this->hasMany(CategoriesArticle::class);
+        return $this->hasMany(PostCategorie::class)->join('categories', 'categories.id', '=', 'post_categories.categorie_id');
+    }
+
+    public function PostCategorie(){
+        return $this->hasMany(PostCategorie::class);
     }
 }
