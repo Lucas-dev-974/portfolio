@@ -21,8 +21,10 @@ return new class extends Migration
            $table->string('demo_url', 125)->nullable();
            $table->longText('description')->nullable();
            $table->string('preview_img_path')->nullable();
-
-           $table->foreignKey('user_id')->references('id')->on('users')->onDelete('cascade');
+           $table->boolean('public')->default(false);
+           $table->timestamps();
+           
+           $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

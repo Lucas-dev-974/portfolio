@@ -16,11 +16,13 @@ return new class extends Migration
         Schema::create('posts', function(Blueprint $table){
             $table->id();
             $table->string('title');
-            $table->unsignedBiInteger('author_id');
+            $table->unsignedBigInteger('user_id');
             $table->longText('content');
             $table->dateTime('publication_date');
-
-            $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
+            $table->boolean('public')->default(false);
+            $table->timestamps();
+            
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

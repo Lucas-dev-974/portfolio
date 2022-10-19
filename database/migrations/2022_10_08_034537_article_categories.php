@@ -14,11 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('post_categories', function(Blueprint $table){
+            $table->id();
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('categorie_id');
-
-            $table->foreignKey('post_id')->references('id')->on('posts');
-            $table->foreignKey('categorie_id')->references('id')->on('categories');
+            $table->timestamps();
+            
+            $table->foreign('post_id')->references('id')->on('posts');
+            $table->foreign('categorie_id')->references('id')->on('categories');
         });
     }
 

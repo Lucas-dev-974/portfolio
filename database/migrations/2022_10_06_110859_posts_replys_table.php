@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('posts_replys', function(Blueprint $table){
             $table->id();
-            $table->unsignedBigInteger('author_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('article_id');
             $table->longText('content');
             $table->dateTime('publication_date');
+            $table->timestamps();
         });
     }
 

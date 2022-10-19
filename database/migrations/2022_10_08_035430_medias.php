@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('target_id');
             $table->string('uri');
             $table->string('name');
+            $table->timestamps();
         });
     }
 
