@@ -1,13 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-
+use Illuminate\Http\Request;
 
 class AuthentificationController extends Controller
 {
@@ -17,15 +14,18 @@ class AuthentificationController extends Controller
         $this->middleware('auth:api', ['except' => ['login','register']]);
     }
 
-    public function login(Request $request)
-    {
-        $request->validate([
+    public function test(){
+        return response()->json(['test' => 'ok'], 200);
+    }
+
+    public function login(Request $request){
+        $validated = $this->check($request, [
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-        $credentials = $request->only('email', 'password');
 
-        $token = Auth::attempt($credentials);
+
+        $token = Auth::attempt($validated);
         if (!$token) {
             return response()->json([
                 'status' => 'error',
@@ -46,16 +46,16 @@ class AuthentificationController extends Controller
     }
 
     public function register(Request $request){
-        $request->validate([
+        $validated = $this->check($request, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
         ]);
 
         $token = Auth::login($user);
