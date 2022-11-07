@@ -58,10 +58,10 @@ class PostController extends Controller
         ]);
 
         $post = Post::find($validated['post_id']);
-
-        if(empty($post)) return response()->json(['messages' => [
-            'l\'article n\'existe pas/plus'
-        ]], 403);
+        if(empty($post)) return response()->json(
+            $this->ErrorJsonResponse(['l\'article n\'existe pas/plus']), 
+            403
+        );
 
         if(!$this->checkAutority($request, $post->user_id)){
             return response()->json('Vous n\'ête pas autoriser à effectuer cet action !', 401);
