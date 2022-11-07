@@ -14,10 +14,11 @@ class AuthentificationController extends Controller
         $this->middleware('auth:api', ['except' => ['login','register']]);
     }
 
-    public function test(){
-        return response()->json(['test' => 'ok'], 200);
+    
+    public function tokenTest(Request $request){
+        return response()->json('success', 200);
     }
-
+    
     public function login(Request $request){
         $validated = $this->check($request, [
             'email' => 'required|string|email',
@@ -59,6 +60,8 @@ class AuthentificationController extends Controller
         ]);
 
         $token = Auth::login($user);
+        $user = User::find($user->id);
+
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
