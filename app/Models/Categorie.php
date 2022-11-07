@@ -12,6 +12,10 @@ class Categorie extends Model
         'id', 'name',  'type'
     ];
 
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+
     public function posts(){
         return $this->hasMany(PostCategorie::class);
     }
