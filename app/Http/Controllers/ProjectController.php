@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\ProjectCategorie;
 use Error;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -15,9 +16,49 @@ class ProjectController extends Controller
         $this->middleware('auth:api', ['except' => ['list']]);
     }
 
+    private function getCategorie($projectid){
+        $categories = [];
+
+        $linkedCategProject = ProjectCategorie::where(['project_id' => $projectid])->with('categorie')->get();
+
+        foreach($linkedCategProject as $categorie){
+            $categorie->categorie['relation_id'] = $categorie->id;
+            array_push($categories, $categorie->categorie);
+        }
+
+        return $categories;
+    }
+
     public function list(Request $request){
-        $projects = Project::paginate(15);
+        $validated = $this->check($request, [
+            'number_items' => 'int' 
+        ]);
+
+        $number_items = 5;
+
+        if(sizeof($validated) > 0) $number_items = $validated['number_items'];
+
+        $projects = Project::paginate($number_items);
+
+        foreach($projects as $project){
+            if(!empty($project['description']))
+                $project['description'] = substr($project['description'], 0, 85) . ' ...';
+
+            $project['categories'] = $this->getCategorie($project->id);
+        }
+
         return response()->json($projects);
+    }
+
+    public function  listByCategorie(Request $request){
+        $validated = $this->check($request, [
+            'categorie_id' => 'required'
+        ]);
+
+        $categ = ProjectCategorie::where(['categorie_id' => $validated['categorie_id']])->get();
+
+
+        return response()->json($categ);
     }
 
     public function one(Request $request, $id){
@@ -28,7 +69,8 @@ class ProjectController extends Controller
 
     public function create(Request $request){
         if($this->isAdmin($request) !== true) return false;
-
+        // abort(response()->json($request->input('file')));
+        
         $validated = $this->check($request, [
             'name' => 'required|string|max:50',
             'description' => 'string|max:1500',
@@ -37,15 +79,20 @@ class ProjectController extends Controller
             'demo_url' => 'url'
         ]);
 
+        
         // Sauvegarde du fichier 
-        if(isset($validated['file'])){
-            $path = $this->storeFile($request);
-            $validated['preview_img_path'] = $path;
-        }
+        if(sizeof($request->file()) > 0){
+            $paths = [];
+            foreach($request->file() as $file){
+                $paths += [$this->storeFile($request, $file)];            
+            }
+
+            $validated['preview_img_path'] =  $paths[0]->uri;
+        }   
 
         $project = Project::create([
             ...$validated,
-            'user_id' => $request->user()->id
+            'user_id' => $request->user()->id,
         ]);
 
         return response()->json($project);
@@ -75,7 +122,6 @@ class ProjectController extends Controller
         $project->save();
 
         return response()->json($project);
-
     }
 
     public function delete(Request $request){}
