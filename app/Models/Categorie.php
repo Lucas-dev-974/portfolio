@@ -19,4 +19,8 @@ class Categorie extends Model
     public function posts(){
         return $this->hasMany(PostCategorie::class);
     }
+
+    public function project(){
+        return $this->hasMany(ProjectCategorie::class);
+    }
 }

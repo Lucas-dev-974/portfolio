@@ -56,7 +56,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
     });    
 
     Route::prefix('/project')->group(function(){
-        Route::get('/', [ProjectController::class, 'one']);
+        Route::get('/{id}', [ProjectController::class, 'one']);
         Route::post('/', [ProjectController::class, 'create']);
         Route::patch('/', [ProjectController::class, 'update']);
         Route::delete('/', [ProjectController::class, 'delete']);
@@ -76,8 +76,9 @@ Route::get('/posts', [PostController::class, 'posts']);
 Route::get('/categories', [CategorieController::class, 'list']);
 
 Route::get('/projects', [ProjectController::class, 'list']);
+Route::get('/projects/by/categ', [ProjectController::class, 'listByCategorie']);
 
 Route::prefix('media')->group(function(){
-    Route::get('/', [MediaController::class, 'get']);
+    Route::get('/',    [MediaController::class, 'get']);
     Route::delete('/', [MediaController::class, 'delete']);
 });

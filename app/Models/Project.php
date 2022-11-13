@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Project extends Model
 {
@@ -22,6 +23,6 @@ class Project extends Model
     }
 
     public function categorie(){
-        // return $this->leftJoin('project_categories', $this->id, '=', 'project_categories.project_id');
+        return $this->hasMany(Categorie::class);
     }
 }
