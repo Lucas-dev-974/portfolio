@@ -18,7 +18,7 @@ class PostController extends Controller
 
     public function posts(Request $request){
         $posts = Post::where(['public' => 1])->with('categories')->cursorPaginate(15);
-        return $posts;
+        return response()->json($posts);
     }
 
     public function post(Request $request){
