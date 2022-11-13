@@ -10,6 +10,9 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Project;
+
+use App\Models\Medias;
 
 class Controller extends BaseController
 {
@@ -50,7 +53,8 @@ class Controller extends BaseController
         ], 401));
     }
 
-    public function storeFile(Request $request){
+    public function storeFile(Request $request, $file){
+
         $app_path = storage_path('app/public');
         $user_store_path = $app_path . '/user-' . str($request->user()->id);    
 
@@ -60,9 +64,10 @@ class Controller extends BaseController
             File::makeDirectory($user_store_path / '/posts', 0777, true, true);
         }
 
-        // dd( $request->image);
         $path = Storage::disk('public')->put('user-' . $request->user()->id, $request->file('file'));
-        $media = $this->saveFile($request, $path);
+  
+
+        $media = $this->saveFile($request, $path, $file);
         return $media;
     }
 
@@ -76,14 +81,28 @@ class Controller extends BaseController
 
     }
 
-    public function saveFile(Request $request, $path){
-        $media_data = [
-            'name' => null,
-            'uri' => null,
-            'target_id' => null,
+    public function saveFile(Request $request, $path, $file){
+        $entity = Project::latest()->first();
+        
+        $media_data = [     
+            'name' => $file->getClientOriginalName(),
+            'uri' => $path,
+            'target_id' => isset($entity) ? ($entity->id + 1) : 1,
             'type' => null
         ];
-        
-        if(strpos($_SERVER['REQUEST_URI'], 'project')) abort(response('okok'));
+
+        if(strpos($_SERVER['REQUEST_URI'], 'project')) {
+            $media_data['type'] = 'project';
+        }
+
+        if(strpos($_SERVER['REQUEST_URI'], 'post')) {
+            $media_data['type'] = 'post';
+        }
+
+        $entity_ = Medias::create([...$media_data]);
+        return $entity_;
+
     }
+
+
 }
