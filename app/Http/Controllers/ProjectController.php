@@ -13,7 +13,7 @@ class ProjectController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['list']]);
+        $this->middleware('auth:api', ['except' => ['list', 'one']]);
     }
 
     private function getCategorie($projectid){
@@ -63,7 +63,10 @@ class ProjectController extends Controller
 
     public function one(Request $request, $id){
         if(!is_numeric($id)) return response()->json('L\'id n\'est pas valide.', 403);
+
         $project = Project::find($id);
+
+        $project['categories'] = $this->getCategorie($project->id);
         return response()->json($project);
     }
 
