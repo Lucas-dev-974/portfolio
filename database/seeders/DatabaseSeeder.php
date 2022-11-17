@@ -23,5 +23,8 @@ class DatabaseSeeder extends Seeder
             'role' => 1,
             'password' => Hash::make('_root#!97439')
         ]);
-    }
+
+        $this->call([ProjectSeeder::class]);
+
+    }   
 }
