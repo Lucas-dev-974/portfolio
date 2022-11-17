@@ -66,6 +66,10 @@ class ProjectController extends Controller
 
         $project = Project::find($id);
 
+        if(!$project) return response()->json([
+            "message" => 'Le projet n\'existe pas !'
+        ], 404);
+
         $project['categories'] = $this->getCategorie($project->id);
         return response()->json($project);
     }
