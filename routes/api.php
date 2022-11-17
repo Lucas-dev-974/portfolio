@@ -64,6 +64,11 @@ Route::group(['middleware' => ['auth:api'] ], function(){
             Route::post('', [ProjectController::class, 'assignCateg']);
             Route::delete('', [ProjectController::class, 'removeCateg']);
         });
+
+        Route::prefix('medias')->group(function(){
+            Route::post('',   [ProjectController::class, 'add_medias']);
+            Route::delete('', [ProjectController::class, 'remove_medias']);
+        });
     });
 
 });
