@@ -61,7 +61,7 @@ class Controller extends BaseController
         if(!File::isDirectory($user_store_path)){
             File::makeDirectory($user_store_path, 0777, true, true);
             File::makeDirectory($user_store_path . '/projects', 0777, true, true);
-            File::makeDirectory($user_store_path / '/posts', 0777, true, true);
+            File::makeDirectory($user_store_path . '/posts', 0777, true, true);
         }
 
         $path = Storage::disk('public')->put('user-' . $request->user()->id, $request->file('file'));
