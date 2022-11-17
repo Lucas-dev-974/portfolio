@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categorie;
+use App\Models\Medias;
 use App\Models\Project;
 use App\Models\ProjectCategorie;
 use Error;
@@ -71,6 +72,19 @@ class ProjectController extends Controller
         ], 404);
 
         $project['categories'] = $this->getCategorie($project->id);
+        
+
+        $medias = Medias::where(['type' => 'project', 'target_id' => $project->id])->get();
+        
+        $medias_ = [];
+        array_push($medias_ , $project->preview_img_path);
+
+
+        foreach($medias as $media){
+            array_push($medias_ , $media->uri);
+        }
+        
+        $project['medias']     = $medias_;
         return response()->json($project);
     }
 
@@ -131,7 +145,9 @@ class ProjectController extends Controller
         return response()->json($project);
     }
 
-    public function delete(Request $request){}
+    public function delete(Request $request){
+        
+    }
 
     public function assignCateg(Request $request){
         $validated = $this->check($request, [
@@ -190,5 +206,23 @@ class ProjectController extends Controller
         }else{
             return response()->json('Impossible d\'effectuer cet action, vous n\'êtes pas l\'auteur du post !', 401);
         }
+    }
+
+    public function add_medias(Request $request){
+        $validated = $this->check($request, [
+            'project_id' => 'int|exists:projects,id',
+            'file' => 'file|required',
+        ]);
+
+        
+        $medias = Medias::create([
+            'name' => 'file'
+        ]);
+
+        return response()->json();
+    }
+
+    public function remove_medias(Request $request){
+        return response()->json();
     }
 }
