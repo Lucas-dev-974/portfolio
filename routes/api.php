@@ -54,15 +54,15 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/{query}', [CategorieController::class, 'search']);
         Route::delete('/{id}', [CategorieController::class, 'delete']);
     });    
-
+    
     Route::prefix('/project')->group(function(){
         Route::post('/', [ProjectController::class, 'create']);
         Route::patch('/', [ProjectController::class, 'update']);
         Route::delete('/', [ProjectController::class, 'delete']);
 
         Route::prefix('assign')->group(function(){
-            Route::post('/',   [ProjectController::class, 'assignCateg']);
-            Route::delete('/', [ProjectController::class, 'removeCateg']);
+            Route::post('', [ProjectController::class, 'assignCateg']);
+            Route::delete('', [ProjectController::class, 'removeCateg']);
         });
 
         Route::prefix('medias')->group(function(){
