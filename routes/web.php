@@ -12,7 +12,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/wordle', function(){
+    return view('wordle');
+});
 
-Route::any('/{all}', function () {
-    return view('app');
-})->where('all','^((?!public).)*?');;
+// Route::any('/{all}', function () {
+//     return view('app');
+// })->where('all','^((?!public).)*?');;
