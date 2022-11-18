@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="icon" href="/favicon.ico">
-    <title>protfolio-front</title>
+    <title>Lucas-lvn site</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>
     <script defer="defer" src="/js/chunk-vendors.3b73e70c.js"></script>
