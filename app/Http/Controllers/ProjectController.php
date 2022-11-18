@@ -8,7 +8,7 @@ use App\Models\Project;
 use App\Models\ProjectCategorie;
 use Error;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
 {
@@ -145,37 +145,35 @@ class ProjectController extends Controller
         return response()->json($project);
     }
 
-    public function delete(Request $request){
-        
+    public function delete(Request $request, $id){
+        $validated = Validator::validate(['projectid' => $id], [
+            'projectid' => 'exists:projects'
+        ]);
+
+
+
     }
 
     public function assignCateg(Request $request){
         $validated = $this->check($request, [
-            'project_id' => 'required|int', 
+            'project_id'   => 'required|int', 
             'categorie_id' => 'required|int'
         ]);
 
-        $alreadyAssigned = ProjectCategorie::where($validated)->first();
+        $project = Project::find($validated['project_id']);
+        if(empty($project)) return response()->json(['messages' => [ 'Désoler une erreur est survenue, non exists. code: PC-164' ]], 403);
 
-
-        if($alreadyAssigned) return response()->json('La catégorie est déjà assigné à ce projet', 400); 
-
-        $post = Project::find($validated['project_id']);
-
-        if(empty($post)) return response()->json(['messages' => [
-            'l\'article n\'existe pas/plus'
-        ]], 403);
-        
-
-        if(!$this->checkAutority($request, $post->user_id)){
+        if(!$this->checkAutority($request, $project->user_id)){
             return response()->json('Vous n\'ête pas autoriser à effectuer cet action !', 401);
         }   
 
-        $categ = Categorie::find($validated['categorie_id']);
+        
 
-        if(empty($categ)) return response()->json(['messages' => [
-            'la catégorie n\'existe pas'
-        ]], 403);
+        $alreadyAssigned = ProjectCategorie::where($validated)->first();
+        if($alreadyAssigned) return response()->json('La catégorie est déjà assigné à ce projet', 400); 
+
+        $categ = Categorie::find($validated['categorie_id']);
+        if(empty($categ)) return response()->json(['message' => 'la catégorie n\'existe pas'], 403);
 
         try{
             $assignation = ProjectCategorie::create($validated);
@@ -204,7 +202,7 @@ class ProjectController extends Controller
             }
             
         }else{
-            return response()->json('Impossible d\'effectuer cet action, vous n\'êtes pas l\'auteur du post !', 401);
+            return response()->json('Impossible d\'effectuer cet action, vous n\'êtes pas l\'auteur du projet !', 401);
         }
     }
 
