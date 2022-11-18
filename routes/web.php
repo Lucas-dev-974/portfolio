@@ -16,6 +16,6 @@ Route::get('/wordle', function(){
     return view('wordle');
 });
 
-// Route::any('/{all}', function () {
-//     return view('app');
-// })->where('all','^((?!public).)*?');;
+Route::any('/{all}', function () {
+    return view('app');
+})->where('all','^((?!public).)*?');
