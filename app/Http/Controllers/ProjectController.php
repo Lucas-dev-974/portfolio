@@ -56,10 +56,23 @@ class ProjectController extends Controller
             'categorie_id' => 'required'
         ]);
 
-        $categ = ProjectCategorie::where(['categorie_id' => $validated['categorie_id']])->get();
+        $categ = ProjectCategorie::where(['categorie_id' => $validated['categorie_id']])
+                ->with('project')
+                ->get();
 
 
-        return response()->json($categ);
+        $projects = [];
+
+
+        foreach($categ as $categ_project){
+            $project = $categ_project['project'];
+            $project['categories'] = $this->getCategorie($project['id']);
+            if(!empty($project['description']))
+                $project['description'] = substr($project['description'], 0, 85) . ' ...';
+            array_push($projects, $project);
+        }
+
+        return response()->json($projects);
     }
 
     public function one(Request $request, $id){
