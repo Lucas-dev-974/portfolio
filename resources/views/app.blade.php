@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="icon" href="/favicon.ico">
-    <title>Lucas-lvn site</title>
+    <title>Lucas-lvn site web</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>
     <script defer="defer" src="/js/chunk-vendors.3b73e70c.js"></script>
-    <script defer="defer" src="/js/app.be90e555.js"></script>
+    <script defer="defer" src="/js/app.d4c146d8.js"></script>
     <link href="/css/chunk-vendors.b81cfec1.css" rel="stylesheet">
     <link href="/css/app.09952a47.css" rel="stylesheet">
 </head>
