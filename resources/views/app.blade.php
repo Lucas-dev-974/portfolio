@@ -10,9 +10,9 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>
     <script defer="defer" src="/js/chunk-vendors.3b73e70c.js"></script>
-    <script defer="defer" src="/js/app.e8c77dd4.js"></script>
+    <script defer="defer" src="/js/app.be90e555.js"></script>
     <link href="/css/chunk-vendors.b81cfec1.css" rel="stylesheet">
-    <link href="/css/app.7eea59fd.css" rel="stylesheet">
+    <link href="/css/app.09952a47.css" rel="stylesheet">
 </head>
 
 <body class="dark"><noscript><strong>We're sorry but protfolio-front doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript>
