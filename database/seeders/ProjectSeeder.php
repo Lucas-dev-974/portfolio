@@ -21,6 +21,7 @@ class ProjectSeeder extends Seeder
                              la liste de mot contient des mot à 5 charactère, le joueur n\'a que 6 essais 
                              pour réusir à trouver le bon mot.',
             'preview_img_path' => '/project_imgs/wordle/in-game.PNG',
+            'demo_url' => '/wordle',
             'public' => true,
             'user_id' => 1
         ]);
@@ -32,6 +33,6 @@ class ProjectSeeder extends Seeder
             'type'      => 'project'
         ]);
 
-        
+
     }   
 }
