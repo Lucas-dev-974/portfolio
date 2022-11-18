@@ -61,8 +61,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::delete('/', [ProjectController::class, 'delete']);
 
         Route::prefix('assign')->group(function(){
-            Route::post('', [ProjectController::class, 'assignCateg']);
-            Route::delete('', [ProjectController::class, 'removeCateg']);
+            Route::post('/',   [ProjectController::class, 'assignCateg']);
+            Route::delete('/', [ProjectController::class, 'removeCateg']);
         });
 
         Route::prefix('medias')->group(function(){
